@@ -12,6 +12,7 @@ import androidx.navigation.navArgument
 import com.htcmobilecoding.ui.theme.HTCMobileCodingTheme
 import com.htcmobilecoding.userinterface.ProductDetailScreen
 import com.htcmobilecoding.userinterface.ProductListScreen
+import com.htcmobilecoding.utils.ROUTE_PRODUCT_DETAIL
 import com.htcmobilecoding.utils.ROUTE_PRODUCT_LIST
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,7 +35,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable(
-                        "product_detail/{productId}",
+                        ROUTE_PRODUCT_DETAIL,
                         arguments = listOf(navArgument("productId") { type = NavType.IntType })
                     ) { backStackEntry ->
                         val productId = backStackEntry.arguments?.getInt("productId") ?: -1

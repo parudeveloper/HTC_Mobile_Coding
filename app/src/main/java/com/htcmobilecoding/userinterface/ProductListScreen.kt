@@ -1,7 +1,6 @@
 package com.htcmobilecoding.userinterface
 
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -30,14 +29,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.htcmobilecoding.data.Resource
@@ -49,22 +46,23 @@ import com.htcmobilecoding.viewmodel.ProductsViewModel
 @Composable
 fun ProductListScreen(
     productsViewModel: ProductsViewModel = hiltViewModel(), onProductClick: (Int) -> Unit,
-    //productDetailsViewModel: ProductDetailsViewModel = hiltViewModel()
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
                 title = { Text("Product List") }, colors = TopAppBarDefaults.smallTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.background
+                   /* containerColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = MaterialTheme.colorScheme.background*/
+                    containerColor = Color(0xFF00897B),
+                    titleContentColor = Color.White
+
+
                 )
             )
         }, containerColor = MaterialTheme.colorScheme.background
     ) { innerPadding ->
         val products by productsViewModel.products.collectAsStateWithLifecycle()
-       // val productsDetails by productDetailsViewModel.productDetails.collectAsStateWithLifecycle()
-        val context = LocalContext.current
 
         Column {
             when (products) {
@@ -93,11 +91,11 @@ fun ProductListScreen(
                             ProductItemCard(
                                 product = productItem,
                                 onItemClick = {
-                                    Toast.makeText(
+                                    /*Toast.makeText(
                                         context,
                                         productItem.id.toString(),
                                         Toast.LENGTH_LONG
-                                    ).show()
+                                    ).show()*/
                                     onProductClick(productItem.id)
 
                                 }
@@ -111,40 +109,6 @@ fun ProductListScreen(
 
     }
 }
-
-/*@Composable
-fun ProductItemCard(productItem: ProductItem, modifier: Modifier = Modifier) {
-    Column(modifier = modifier.fillMaxSize()) {
-        Text(
-            text = productItem.title,
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center)
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-
-        *//*Image(
-            painter = painterResource(id = productItem.imageUrl.toInt()),
-            contentDescription = "My Image",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.size(120.dp)
-        )*//*
-
-        Row {
-            AsyncImage(
-                model = productItem.imageUrl,
-                contentDescription = "Network Image",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.size(120.dp)
-            )
-            Text(
-                text = productItem.summary,
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp))
-        }
-    }
-}*/
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable

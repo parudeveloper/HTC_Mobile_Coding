@@ -3,8 +3,10 @@ package com.htcmobilecoding.repository
 import com.htcmobilecoding.data.Resource
 import com.htcmobilecoding.model.ProductDetails
 import com.htcmobilecoding.network.ProductAPI
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class ProductDetailsRepository @Inject constructor(private val productAPI: ProductAPI) {
@@ -19,6 +21,6 @@ class ProductDetailsRepository @Inject constructor(private val productAPI: Produ
 
         }
 
-    }
+    }.flowOn(Dispatchers.IO)
 
 }

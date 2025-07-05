@@ -1,7 +1,6 @@
 package com.htcmobilecoding.di
 
 import com.htcmobilecoding.network.ProductAPI
-import com.htcmobilecoding.repository.ProductsRepository
 import com.htcmobilecoding.utils.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -21,11 +20,5 @@ object AppModule {
         return Retrofit.Builder().baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create()).build()
             .create(ProductAPI::class.java)
-    }
-
-
-    @Provides
-    fun providesProductsRepository(productAPI: ProductAPI): ProductsRepository {
-        return ProductsRepository(productAPI)
     }
 }
