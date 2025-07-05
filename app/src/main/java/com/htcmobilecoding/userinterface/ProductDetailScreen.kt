@@ -35,6 +35,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
@@ -55,12 +56,12 @@ fun ProductDetailScreen(
             TopAppBar(
                 title = { Text("Product Details") }, navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back",tint = Color.White)
                     }
                 },
                 colors = TopAppBarDefaults.smallTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.background
+                    containerColor = Color(0xFF00897B),
+                    titleContentColor = Color.White
                 )
             )
         }, containerColor = MaterialTheme.colorScheme.background
@@ -71,13 +72,13 @@ fun ProductDetailScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            val state by productDetailsViewModel.productDetails.collectAsState()
+            val productDetailsData by productDetailsViewModel.productDetails.collectAsStateWithLifecycle()
 
             LaunchedEffect(productId) {
                 productDetailsViewModel.getProductDetails(productId)
             }
 
-            when (state) {
+            when (productDetailsData) {
                 is Resource.Loading -> {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         CircularProgressIndicator()
@@ -89,7 +90,7 @@ fun ProductDetailScreen(
                 }
 
                 is Resource.Success -> {
-                    val product = (state as Resource.Success<ProductDetails>).data
+                    val product = (productDetailsData as Resource.Success<ProductDetails>).data
 
                     ProductDetailContent(product!!)
                 }
